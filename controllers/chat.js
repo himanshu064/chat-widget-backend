@@ -47,9 +47,43 @@ exports.chatMessages = async (req, res) => {
 }
 
 exports.chatList = async (req,res) =>{
-
+let {userId} = req.user
 try{
-
+let chatList = await Chat.aggregate([
+  {
+    $match:{
+      $or:[
+        {sender:userId},
+        {receiver:userId}
+      ]
+    }
+  },
+  {
+    $group: {
+      _id: {
+        user: {
+          $cond: [
+            { $eq: ["$sender", userId] },
+            "$receiver",
+            "$sender"
+          ]
+        }
+      },
+      latestMessage: { $last: "$$ROOT" }
+    }
+  },
+  {
+    $sort: {
+      "latestMessage.createdAt": -1
+    }
+  },
+])
+res.status(200).send({
+  status:"success",
+  statusCode:200,
+  message:"chat list",
+  data:chatList
+})
 }
 catch(err){
     console.log(err);
