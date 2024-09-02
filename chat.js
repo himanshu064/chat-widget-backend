@@ -32,7 +32,7 @@ const chat = (server) => {
       let msg = new Chat({
         receiver,
         sender,
-        message,
+        msg:message,
         msgRead,
       });
       await msg.save();
