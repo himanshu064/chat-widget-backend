@@ -1,17 +1,16 @@
-const express = require("express")
-const router = express.Router()
-const authController = require("../controllers/auth")
-const chatController = require("../controllers/chat")
-const {signUp , login} = require("../validationMiddleWare/commonValidation")
-const {validationCheck } = require("../validationMiddleWare/validationResult")
+const express = require("express");
+const router = express.Router();
+const authController = require("../controllers/auth");
+const chatController = require("../controllers/chat");
+const { signUp, login } = require("../validationMiddleWare/commonValidation");
+const { validationCheck } = require("../validationMiddleWare/validationResult");
 
-router.post("/signUp",signUp(),validationCheck,authController.signUp)
-router.post("/login",login(),validationCheck,authController.login)
+router.post("/signUp", signUp(), validationCheck, authController.signUp);
+router.post("/login", login(), validationCheck, authController.login);
 
 // router.get("/login",authController.getData)
 
-
 // verify token middleWare pending
-router.get("/chat",chatController.chatMessages)
+router.get("/chat", chatController.chatMessages);
 
-module.exports = router
+module.exports = router;
